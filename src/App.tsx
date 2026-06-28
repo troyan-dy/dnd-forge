@@ -48,8 +48,8 @@ export default function App() {
             <WizardNav />
           </section>
 
-          {/* Live sheet (sticky on desktop, collapsible on mobile) */}
-          <aside className="order-1 lg:order-2">
+          {/* Live sheet (sticky on desktop). Hidden in print — the summary has the full sheet. */}
+          <aside className={`order-1 lg:order-2 ${isSummary ? 'no-print' : ''}`}>
             <div className="lg:sticky lg:top-20">
               <LiveSheet />
             </div>
