@@ -8,6 +8,10 @@
   #root {
     height: 100%;
   }
+  /* Bump the base size so all rem-based text/spacing scales up (default 16px). */
+  html {
+    font-size: 18px;
+  }
   body {
     @apply bg-ink-900 text-parchment-100 font-body;
     background-image:

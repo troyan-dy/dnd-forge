@@ -19,6 +19,7 @@ import { BACKGROUND_BY_ID } from '@/data/backgrounds'
 
 export function LiveSheet() {
   const character = useForge((s) => s.character)
+  const patch = useForge((s) => s.patch)
   const abilities = finalAbilities(character)
   const race = getRace(character)
   const cls = getClass(character)
@@ -37,9 +38,14 @@ export function LiveSheet() {
       </div>
 
       <div className="mb-3">
-        <div className="font-display text-lg font-bold text-parchment-50">
-          {character.name || 'Безымянный герой'}
-        </div>
+        <input
+          type="text"
+          value={character.name}
+          onChange={(e) => patch({ name: e.target.value })}
+          placeholder="Безымянный герой"
+          aria-label="Имя персонажа"
+          className="no-print w-full rounded-md border border-transparent bg-transparent px-1 py-0.5 font-display text-lg font-bold text-parchment-50 placeholder:text-parchment-300/40 hover:border-gold-600/30 focus:border-gold-400/60 focus:bg-ink-800 focus:outline-none"
+        />
         <div className="text-xs text-parchment-300/70">
           {[race?.name, cls?.name, cls?.subclass.name].filter(Boolean).join(' · ') || 'Раса и класс не выбраны'}
           {bg ? ` · ${bg.name}` : ''}

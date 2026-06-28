@@ -25,7 +25,7 @@ export function ProgressBar() {
               key={s}
               onClick={() => setStep(s)}
               className={[
-                'rounded-md px-2 py-1 text-[11px] font-display font-semibold tracking-wide transition-colors',
+                'rounded-md px-3 py-1.5 text-[20px] font-display font-semibold tracking-wide transition-colors',
                 active
                   ? 'bg-gold-400 text-ink-900'
                   : done

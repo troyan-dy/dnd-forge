@@ -1,7 +1,8 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { useForge } from '@/lib/store'
 import { GuideView } from '@/components/GuideView'
 import { exportCharacter, parseCharacter } from '@/lib/io'
+import { downloadElementAsPdf } from '@/lib/pdf'
 import {
   finalAbilities,
   abilityModifier,
@@ -31,6 +32,22 @@ export function SummaryStep() {
   const reset = useForge((s) => s.reset)
   const setStep = useForge((s) => s.setStep)
   const fileRef = useRef<HTMLInputElement>(null)
+  const sheetRef = useRef<HTMLDivElement>(null)
+  const [pdfBusy, setPdfBusy] = useState(false)
+
+  const handleDownloadPdf = async () => {
+    if (!sheetRef.current) return
+    setPdfBusy(true)
+    try {
+      const safeName = (character.name || 'персонаж').trim().replace(/[\\/:*?"<>|]+/g, '_')
+      await downloadElementAsPdf(sheetRef.current, `${safeName}.pdf`)
+    } catch (err) {
+      console.error(err)
+      alert('Не удалось создать PDF. Попробуйте ещё раз.')
+    } finally {
+      setPdfBusy(false)
+    }
+  }
 
   const race = getRace(character)
   const cls = getClass(character)
@@ -75,6 +92,9 @@ export function SummaryStep() {
         <button className="btn-ghost" onClick={() => window.print()}>
           🖨 Печать / как карточка
         </button>
+        <button className="btn-ghost" onClick={handleDownloadPdf} disabled={pdfBusy}>
+          {pdfBusy ? '⏳ Готовим PDF…' : '⬇ Скачать PDF'}
+        </button>
         <button className="btn-ghost" onClick={() => setStep('race')}>
           ✎ Редактировать
         </button>
@@ -111,7 +131,7 @@ export function SummaryStep() {
       </div>
 
       {/* Printable character sheet */}
-      <div className="card">
+      <div ref={sheetRef} className="card">
         <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2 border-b border-gold-600/20 pb-3">
           <div>
             <h2 className="font-display text-2xl font-bold text-parchment-50">
