@@ -1,0 +1,16 @@
+# DnD Build Forge — продакшн на хосте.
+# Тянет готовый образ из GHCR (его собирает GitHub Actions при пуше в master).
+#
+#   docker compose -f docker-compose.prod.yml pull       # подтянуть latest
+#   docker compose -f docker-compose.prod.yml up -d       # запустить
+#
+# Если пакет в GHCR приватный — сначала залогиниться:
+#   echo <GITHUB_TOKEN> | docker login ghcr.io -u <username> --password-stdin
+
+services:
+  web:
+    image: ghcr.io/troyan-dy/dnd-forge:latest
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    pull_policy: always
