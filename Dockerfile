@@ -1,5 +1,8 @@
 # ---- Stage 1: build the Vite app ----
-FROM node:22-alpine AS build
+# Always build on the native runner arch ($BUILDPLATFORM) — the Vite output is
+# arch-independent static files, so we avoid running npm under QEMU emulation
+# (which crashes with "illegal instruction" on cross-arch builds).
+FROM --platform=$BUILDPLATFORM node:22-alpine AS build
 WORKDIR /app
 
 # Install deps first for better layer caching.
