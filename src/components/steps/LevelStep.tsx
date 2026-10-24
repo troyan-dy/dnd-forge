@@ -217,7 +217,7 @@ function ASIEditor({
             <span className="text-xs">{ABILITY_SHORT[ab]}</span>
             <div className="flex items-center gap-2">
               <button
-                className="h-6 w-6 rounded border border-gold-600/40 text-gold-300 disabled:opacity-30"
+                className="h-6 w-6 rounded-sm border border-gold-600/40 text-gold-300 disabled:opacity-30"
                 onClick={() => bump(ab, -1)}
                 disabled={(choice.abilities[ab] ?? 0) <= 0}
                 title={`Убавить ${ABILITY_LABELS[ab]}`}
@@ -226,7 +226,7 @@ function ASIEditor({
               </button>
               <span className="w-4 text-center">+{choice.abilities[ab] ?? 0}</span>
               <button
-                className="h-6 w-6 rounded border border-gold-600/40 text-gold-300 disabled:opacity-30"
+                className="h-6 w-6 rounded-sm border border-gold-600/40 text-gold-300 disabled:opacity-30"
                 onClick={() => bump(ab, 1)}
                 disabled={remaining <= 0 || (choice.abilities[ab] ?? 0) >= 2}
                 title={`Добавить ${ABILITY_LABELS[ab]}`}

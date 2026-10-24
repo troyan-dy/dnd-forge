@@ -1,0 +1,35 @@
+name: CI
+
+# Проверка типов и прод-сборка на каждый PR и пуш в master.
+# Тестов и линтера в проекте нет — `npm run build` (tsc -b strict + vite build)
+# и есть основной гейт.
+on:
+  pull_request:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build

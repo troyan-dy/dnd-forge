@@ -12,7 +12,7 @@ export function ProgressBar() {
     <div className="no-print">
       <div className="mb-2 h-1.5 w-full overflow-hidden rounded-full bg-ink-600">
         <div
-          className="h-full rounded-full bg-gradient-to-r from-gold-600 to-gold-300 transition-all duration-300"
+          className="h-full rounded-full bg-linear-to-r from-gold-600 to-gold-300 transition-all duration-300"
           style={{ width: `${pct}%` }}
         />
       </div>

@@ -28,8 +28,8 @@ npm run typecheck  # только проверка типов
 
 ## Стек
 
-- **React 18 + Vite 5 + TypeScript** (строгий режим, `noUnusedLocals`/`noUnusedParameters`).
-- **Tailwind CSS 3** — кастомная тёмно-фэнтезийная палитра и компоненты.
+- **React 19 + Vite 8 + TypeScript 7** (строгий режим, `noUnusedLocals`/`noUnusedParameters`).
+- **Tailwind CSS 4** — кастомная тёмно-фэнтезийная палитра и компоненты (`@theme`/`@utility` в `src/index.css`).
 - **zustand** — состояние персонажа и навигация визарда.
 - **localStorage** — персистентность между сессиями через безопасную обёртку
   с `try/catch` (приложение не падает, если хранилище недоступно).
