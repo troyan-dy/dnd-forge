@@ -12,7 +12,7 @@ export default function App() {
   return (
     <div className="min-h-full">
       {/* Header */}
-      <header className="no-print sticky top-0 z-20 border-b border-gold-600/30 bg-ink-900/85 backdrop-blur">
+      <header className="no-print sticky top-0 z-20 border-b border-gold-600/30 bg-ink-900/85 backdrop-blur-sm">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-3">
             <img src="/forge.svg" alt="" className="h-9 w-9" />

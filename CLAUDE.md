@@ -22,8 +22,9 @@ docker compose --profile dev up     # Vite HMR в контейнере :5173
 ## Окружение
 
 - `.npmrc` пинит публичный `registry.npmjs.org` (корпоративный proxy недоступен). Не удаляй без причины.
-- React 18, Vite 5, TS 5.6, Tailwind 3, zustand 4. **Не** обновляй мажоры без явной просьбы.
-- Алиас `@/*` → `src/*` настроен в двух местах: `tsconfig.app.json` (paths) и `vite.config.ts` (resolve.alias). Менять — синхронно.
+- Node 24 (LTS; Docker и CI), React 19, Vite 8 (rolldown), TS 7, Tailwind 4, zustand 5. **Не** обновляй мажоры без явной просьбы.
+- Алиас `@/*` → `src/*` настроен в двух местах: `tsconfig.app.json` (paths, без `baseUrl` — в TS 7 он удалён) и `vite.config.ts` (resolve.alias). Менять — синхронно.
+- PDF-экспорт рендерит DOM через `html2canvas-pro`: оригинальный `html2canvas` не понимает `oklab()`/`color-mix()`, которые генерирует Tailwind 4.
 
 ## Архитектура (поток данных)
 
@@ -63,7 +64,7 @@ components/  ← читают из useForge(selector), вызывают мута
 - **Стор:** добавляешь поле в `CharacterState` → обнови `createEmptyCharacter()` и при необходимости мутатор в `store.ts`. Мутаторы по образцу существующих: собрать новый `character`, вызвать `persist(character)`, затем `set`.
 - **Данные:** новая сущность = запись в массив `data/*.ts` + она автоматически попадает в `*_BY_ID`. **Размечай теги сразу** (`role`, `complexity`, `grantsSkills`, `skillChoices`, `spellTags`, `synergyRoles`) — на них держатся фильтр и гайд.
 - **Расчёты:** любая новая производная величина — чистая функция в `lib/`, не считай в компоненте.
-- **UI:** тёмно-фэнтези Tailwind-классы вынесены в `@layer components` в `index.css` (`.card`, `.card-hover`, `.btn-primary`, `.chip`, `.stat-box` …). Используй их, не плоди ad-hoc стили. Палитра — в `tailwind.config.js` (`ink`, `parchment`, `gold`, `blood`).
+- **UI:** тёмно-фэнтези Tailwind-классы вынесены в `@utility`-блоки в `index.css` (`card`, `card-hover`, `btn-primary`, `chip`, `stat-box` …). Используй их, не плоди ad-hoc стили. Палитра, шрифты и тени — в блоке `@theme` в `index.css` (`ink`, `parchment`, `gold`, `blood`); `tailwind.config.js` больше нет.
 - **Печать:** класс `no-print` скрывает элемент при печати; `@media print` в `index.css` перекрашивает в светлый пергамент.
 - **Текст интерфейса — на русском.** Контент — только SRD/CC-BY-4.0, платный контент не добавлять.
 
@@ -89,5 +90,5 @@ components/  ← читают из useForge(selector), вызывают мута
 
 Браузера в окружении сборки может не быть. Логику `lib/` быстро проверяй так:
 напиши временный `*.ts` с ассертами, собери и запусти —
-`node_modules/.bin/esbuild scratch.ts --bundle --platform=node --format=esm --alias:@=./src --outfile=/tmp/v.mjs && node /tmp/v.mjs`,
+`node_modules/.bin/rolldown scratch.ts --platform node --format esm --tsconfig tsconfig.app.json --file /tmp/v.mjs && node /tmp/v.mjs`,
 затем удали файл. (Так уже проверялись AC/HP/спасброски/фильтр/гайд.)

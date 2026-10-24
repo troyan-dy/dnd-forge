@@ -1,12 +1,12 @@
 // PDF export: rasterize a DOM node and lay it out across A4 pages.
-// jspdf + html2canvas are imported lazily so they stay out of the main bundle.
+// jspdf + html2canvas-pro are imported lazily so they stay out of the main bundle.
 
 /** Dark page background so semi-transparent cards render on solid ink, not white. */
 const PAGE_BG = '#0b0a08'
 
 export async function downloadElementAsPdf(element: HTMLElement, filename: string) {
   const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
-    import('html2canvas'),
+    import('html2canvas-pro'),
     import('jspdf'),
   ])
 
